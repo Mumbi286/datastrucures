@@ -76,3 +76,4 @@ print ("Step 14")
 # 15. Slice Elements from an array
 print("Step 16")
 print (my_array[:4])
+
