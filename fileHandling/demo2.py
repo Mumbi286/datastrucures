@@ -38,9 +38,11 @@
 # print(data["city"])
 
 #5. Writing Serialised Data to file
+#  Perfoming CRUD operation
 import json
 import os 
 
+#  1. Saving user data 
 def save_user_data():
     user_list=[]
 
@@ -70,7 +72,83 @@ def save_user_data():
         json.dump(user_list, file)
 
     print("User data saved successfully")
-save_user_data()
+
+# 2. To view the user data 
+def read_user_data():
+    if not os.path.exists("data2.json"):
+        print("No user data found")
+        return
+    
+    with open("data2.json", "r") as file:
+        user_list = json.load(file)
+        for user_data in user_list:
+            print("Name : ", user_data["name"])
+            print("Email : ", user_data["email"])
+            print("Contact : ", user_data["contact"])
+            print("\n")
+
+
+
+#3. Editing user's data fron data.json file 
+def edit_user_data(name):
+    if not os.path.exists("data2.json"):
+        print("No user data found")
+        return
+
+    with open('data2.json','r') as file:
+        user_list = json.load(file)
+
+
+    user_found = False
+    for user_data in user_list:
+        if user_data['name'].lower() == name.lower():
+            email = input("Enter updated email: ")
+            contact = input("Enter updated contact: ")
+
+            user_data["email"] = email
+            user_data["contact"] = contact
+            user_found = True 
+            break
+
+    if not user_found:
+        print("User not found ")
+    
+    with open("data2.json", "w") as file:
+        json.dump(user_list,file)
+    print("User data updated successfully!")
+
+# 4. Deleting user function 
+def delete_user_data(name):
+    if not os.path.exists("data2.json"):
+        print("No user data found")
+        return
+
+    with open('data2.json','r') as file:
+        user_list = json.load(file)
+
+
+    user_found = False
+    for user_data in user_list:
+        if user_data['name'].lower() == name.lower():
+            user_list.remove(user_data)
+            user_found = True 
+            break
+
+    if not user_found:
+        print("User not found ")
+    
+    with open("data2.json", "w") as file:
+        json.dump(user_list,file)
+    print("User data deleted successfully!")
+    
+
+# edit_name = input("Enter name which you want to edit data for: ")
+# edit_user_data(edit_name)
+# read_user_data()
+
+delete_name = input("Enter name which you want to delete: ")
+delete_user_data(delete_name)
+read_user_data()
 
 
         
